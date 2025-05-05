@@ -1,57 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>SpotifyClone</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background-color: #2a2a3d;
-      padding: 20px;
-      border-radius: 8px;
-      color: white;
-      min-width: 300px;
-    }
-
-    .modal-content input,
-    .modal-content textarea {
-      width: 100%;
-      background-color: #1e1e2f;
-      color: white;
-      border: 1px solid #444;
-      border-radius: 4px;
-      padding: 8px;
-      margin-bottom: 10px;
-    }
-
-    .playlist-img {
-  width: 100%;
-  max-width: 200px;
-  height: 120px;              /* Fixed height */
-  object-fit: cover;          /* Crop the image, don't stretch it */
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="navbar">
     <div class="title">
       <a href="frontpage.html">
-        <img src="notspotifylogo.png" alt="Logo" class="logo">
+        <img src="notspotifylogo.png" alt="Logo" class="logo" />
       </a>
-    </div>    
+    </div>
     <div class="nav-buttons">
       <a href="search.html">Search</a>
       <a href="playlists.html">Playlists</a>
@@ -61,11 +21,15 @@
 
   <main style="padding: 20px;">
     <h2>Create a Playlist</h2>
-    <input type="text" id="playlist-name" placeholder="Playlist name"><br><br>
-    <textarea id="playlist-desc" placeholder="Playlist description"></textarea><br><br>
-    <input type="text" id="playlist-songs" placeholder="Comma-separated song titles"><br><br>
-    <input type="file" id="playlist-image" accept="image/*"><br><br>
-    <button onclick="savePlaylist()">Create Playlist</button>
+
+    <!-- ✅ Requirement: This is the form element required by the assignment -->
+    <form id="create-playlist-form">
+      <input type="text" id="playlist-name" placeholder="Playlist name" required />
+      <textarea id="playlist-desc" placeholder="Playlist description"></textarea>
+      <input type="text" id="playlist-songs" placeholder="Comma-separated song titles" />
+      <input type="file" id="playlist-image" accept="image/*" />
+      <button type="submit">Create Playlist</button>
+    </form>
 
     <h2>Existing Playlists</h2>
     <div id="existing-playlists"></div>
@@ -75,17 +39,19 @@
   <div id="edit-modal" class="modal">
     <div class="modal-content">
       <h3>Edit Playlist</h3>
-      <input type="text" id="edit-name" placeholder="Playlist name"><br>
-      <textarea id="edit-desc" placeholder="Description"></textarea><br>
-      <input type="text" id="edit-songs" placeholder="Comma-separated songs"><br>
-      <input type="file" id="edit-image" accept="image/*"><br>
+      <input type="text" id="edit-name" placeholder="Playlist name" />
+      <textarea id="edit-desc" placeholder="Description"></textarea>
+      <input type="text" id="edit-songs" placeholder="Comma-separated songs" />
+      <input type="file" id="edit-image" accept="image/*" />
       <button onclick="saveEdit()">Save</button>
       <button onclick="closeModal()">Cancel</button>
     </div>
   </div>
 
   <script>
-    function savePlaylist() {
+    function savePlaylist(event) {
+      event.preventDefault();
+
       const name = document.getElementById("playlist-name").value.trim();
       const desc = document.getElementById("playlist-desc").value.trim();
       const songs = document.getElementById("playlist-songs").value.trim().split(',').map(s => s.trim()).filter(Boolean);
@@ -94,7 +60,6 @@
       if (!name) return;
 
       const reader = new FileReader();
-
       reader.onload = function (event) {
         const imageData = event.target.result;
         const playlists = JSON.parse(localStorage.getItem("playlists")) || [];
@@ -134,7 +99,6 @@
     function editPlaylist(index) {
       const playlists = JSON.parse(localStorage.getItem("playlists")) || [];
       const playlist = playlists[index];
-
       editIndex = index;
       document.getElementById("edit-name").value = playlist.name;
       document.getElementById("edit-desc").value = playlist.desc;
@@ -194,9 +158,9 @@
           const div = document.createElement("div");
           div.className = "playlist-box";
           div.innerHTML = `
-          <img src="${p.image && p.image !== '' ? p.image : 'placeholder.jpg'}" class="playlist-img"><br>
-            <strong>${p.name}</strong><br>
-            <em>${p.desc || 'No description'}</em><br>
+            <img src="${p.image && p.image !== '' ? p.image : 'placeholder.jpg'}" class="playlist-img" />
+            <strong>${p.name}</strong>
+            <em>${p.desc || 'No description'}</em>
             <span>Songs: ${Array.isArray(p.songs) ? p.songs.join(', ') : 'None'}</span><br><br>
             <button onclick="editPlaylist(${i})">Edit</button>
             <button onclick="deletePlaylist(${i})">Delete</button>
@@ -206,7 +170,10 @@
       }
     }
 
-    document.addEventListener("DOMContentLoaded", displayPlaylists);
+    document.addEventListener("DOMContentLoaded", () => {
+      displayPlaylists();
+      document.getElementById("create-playlist-form").addEventListener("submit", savePlaylist);
+    });
   </script>
 </body>
 </html>
