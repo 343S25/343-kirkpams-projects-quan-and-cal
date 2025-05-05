@@ -293,6 +293,19 @@ a:hover {
   text-shadow: 0 0 5px #4ea8ff;
 }
 
+button {
+  background-color: #444;
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #575787;
+}
+
 /* Requirement: Responsive layout using media queries for small screens */
 @media (max-width: 600px) {
   .nav-buttons {

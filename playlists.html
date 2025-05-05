@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SpotifyClone</title>
+  <title>Playlists | SpotifyClone</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- 🔵 NAVBAR -->
   <div class="navbar">
     <div class="title">
       <a href="frontpage.html">
@@ -19,10 +20,9 @@
     </div>
   </div>
 
+  <!-- 🔧 MAIN CONTENT -->
   <main style="padding: 20px;">
     <h2>Create a Playlist</h2>
-
-    <!-- ✅ Requirement: This is the form element required by the assignment -->
     <form id="create-playlist-form">
       <input type="text" id="playlist-name" placeholder="Playlist name" required />
       <textarea id="playlist-desc" placeholder="Playlist description"></textarea>
@@ -31,11 +31,20 @@
       <button type="submit">Create Playlist</button>
     </form>
 
+    <!-- 🎯 Export/Import Buttons -->
+    <div class="nav-buttons" style="margin: 20px 0;">
+      <button onclick="exportPlaylists()">Export Playlists (JSON)</button>
+      <label style="background-color: #444; color: white; padding: 10px 14px; border-radius: 5px; cursor: pointer;">
+        Import Playlists (JSON)
+        <input type="file" id="import-file" accept="application/json" style="display: none;" />
+      </label>
+    </div>
+
     <h2>Existing Playlists</h2>
     <div id="existing-playlists"></div>
   </main>
 
-  <!-- ✨ Modal for Editing -->
+  <!-- 📝 Edit Modal -->
   <div id="edit-modal" class="modal">
     <div class="modal-content">
       <h3>Edit Playlist</h3>
@@ -48,10 +57,10 @@
     </div>
   </div>
 
+  <!-- 🧠 SCRIPT -->
   <script>
     function savePlaylist(event) {
       event.preventDefault();
-
       const name = document.getElementById("playlist-name").value.trim();
       const desc = document.getElementById("playlist-desc").value.trim();
       const songs = document.getElementById("playlist-songs").value.trim().split(',').map(s => s.trim()).filter(Boolean);
@@ -169,6 +178,38 @@
         });
       }
     }
+
+    function exportPlaylists() {
+      const playlists = JSON.parse(localStorage.getItem("playlists")) || [];
+      const blob = new Blob([JSON.stringify(playlists, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "playlists.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("import-file").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedPlaylists = JSON.parse(e.target.result);
+          if (!Array.isArray(importedPlaylists)) throw new Error("Invalid format");
+
+          localStorage.setItem("playlists", JSON.stringify(importedPlaylists));
+          displayPlaylists();
+          alert("Playlists imported successfully!");
+        } catch (err) {
+          alert("Failed to import JSON: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
 
     document.addEventListener("DOMContentLoaded", () => {
       displayPlaylists();
