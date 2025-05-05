@@ -1,114 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Welcome | SpotifyClone</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    .landing {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 20px;
-      text-align: center;
-    }
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+p {
+  font-family: serif;
+}
 
-    .landing h1 {
-      font-size: 48px;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #f0f0f0;
-      margin-bottom: 20px;
-    }
 
-    .landing p {
-      font-family: serif;
-      font-size: 20px;
-      color: #ddd;
-      max-width: 600px;
-      margin-bottom: 30px;
-    }
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
-    .cta-button {
-      background-color: #3a3a5e;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #39418a;
+  color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
-    .cta-button:hover {
-      background-color: #575787;
-    }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #03045e;
+  padding: 10px 20px;
+  color: white;
+}
 
-    .features {
-      margin-top: 60px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 30px;
-      width: 100%;
-      max-width: 900px;
-    }
+.navbar .title {
+  font-size: 24px;
+  font-weight: bold;
+}
 
-    .feature-box {
-      background-color: #2a2a3d;
-      padding: 20px;
-      border-radius: 10px;
-      color: white;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+}
 
-    .feature-box h3 {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+.nav-buttons a {
+  background-color: #3a3a5e;
+  color: white;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
 
-    .feature-box p {
-      font-family: serif;
-      font-size: 0.95em;
-      color: #bbb;
-    }
-  </style>
-</head>
-<body>
-  <!-- 🔵 NAVBAR -->
-  <div class="navbar">
-    <div class="title">
-      <a href="frontpage.html">
-        <img src="not-spotify-high-resolution-logo.png" alt="Logo" class="logo">
-      </a>
-    </div>    
-    <div class="nav-buttons">
-      <a href="search.html">Search</a>
-      <a href="playlists.html">Playlists</a>
-      <a href="trending.html">Trending</a>
-    </div>
-  </div>
+.nav-buttons a:hover {
+  background-color: #575787;
+}
 
-  <!-- 🎵 LANDING CONTENT -->
-  <div class="landing">
-    <h1>Welcome to NotSpotify</h1>
-    <p>Your custom music hub — build playlists, explore sounds, and take control of your vibe.</p>
-    <a href="frontpage.html"><button class="cta-button">Enter App</button></a>
+.logo {
+  height: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
 
-    <div class="features">
-      <div class="feature-box">
-        <h3>🎧 Personalized Playlists</h3>
-        <p>Create your own playlists using songs you love or discover new ones.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🔍 Smart Search</h3>
-        <p>Quickly find songs and artists with our intuitive search interface.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🔥 Trending Music</h3>
-        <p>Stay current with popular and rising tracks curated just for you.</p>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+/* Ensure the album section fills available space */
+.album-section {
+  flex-grow: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  text-align: center;
+}
+
+/* Grid container to fill the screen */
+.song-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Each song box */
+.song-box {
+  background-color: #2a2a3d;
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Text inside song box */
+.song-title {
+  font-weight: bold;
+  margin: 0 0 5px 0;
+}
+
+.song-author {
+  margin: 0;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+/* Wrapper ensures square image and prevents clipping */
+.image-wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Image styling fix: no more top/bottom cropping */
+.song-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Play button styles */
+.play-button {
+  bottom: 0px;
+  right: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.play-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.text-and-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .playlist-box {
+    background-color: #2a2a3d;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0;
+    width: 250px;           /* You can change this */
+    height: 350px;          /* Fixed height */
+    overflow: hidden;       /* Hide overflow content */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .playlist-box button {
+    margin-right: 10px;
+    background-color: #444;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  
+  .playlist-box button:hover {
+    background-color: #666;
+  }
+  
+  textarea {
+    width: 300px;
+    height: 60px;
+  }
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+#existing-playlists {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 20px;                              /* spacing between boxes */
+    margin-top: 20px;
+  }
