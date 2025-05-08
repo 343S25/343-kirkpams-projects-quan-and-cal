@@ -89,17 +89,18 @@
         const explicit = track.explicit ? "Yes" : "No";
 
         card.innerHTML = `
-          <img src="${image}" alt="${track.name}" class="song-image" />
-          <div class="text">
-            <strong class="song-title">${track.name}</strong><br/>
-            <em class="song-author">${artists}</em><br/>
-            <p>Album: ${track.album.name}</p>
-            <p>Duration: ${duration}</p>
-            <p>Popularity: ${popularity}</p>
-            <p>Explicit: ${explicit}</p>
+          <div style="display: flex; align-items: flex-start; gap: 15px;">
+           <img src="${image}" alt="${track.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" />
+           <div class="text">
+             <strong class="song-title">${track.name}</strong><br/>
+             <em class="song-author">${artists}</em><br/>
+             <p>Album: ${track.album.name}</p>
+             <p>Duration: ${duration}</p>
+             <p>Popularity: ${popularity}</p>
+             <p>Explicit: ${explicit}</p>
+           </div>
           </div>
         `;
-
         container.appendChild(card);
       });
     }
